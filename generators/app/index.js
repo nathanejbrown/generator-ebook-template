@@ -14,6 +14,10 @@ module.exports = yeoman.Base.extend({
       name: 'whichColor',
       message: 'Which color template would you like to use?',
       choices: ['orange', 'green', 'blue']
+    }, {
+      type: 'input',
+      name: 'title',
+      message: 'What\'s the title of the book?'
     }];
 
     return this.prompt(prompts).then(function (props) {
@@ -22,9 +26,12 @@ module.exports = yeoman.Base.extend({
   },
 
   writing: function () {
-    this.fs.copy(
+    this.fs.copyTpl(
       this.templatePath('./index.html'),
-      this.destinationPath('./index.html')
+      this.destinationPath('./index.html'),
+      {
+        title: this.props.title
+      }
     );
     this.fs.copy(
       this.templatePath('../assets/font'),
